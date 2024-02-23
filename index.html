@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSIntel | Anasayfa</title>
+
+  <script>
+    if (localStorage.getItem("language_browser")) {
+      var lang = localStorage.getItem("language_browser");
+    } else {
+      var lang = navigator.language;
+    }
+
+    function setLang(lang) {
+      localStorage.setItem("language_browser", lang);
+      location.reload();
+    }
+
+    function getLangTitle(){
+      if (localStorage.getItem("language_browser")) {
+        var lang = localStorage.getItem("language_browser");
+      } else {
+        var lang = navigator.language;
+      }
+
+      var langTitle;
+
+      if (lang == "tr-TR") {
+        langTitle = "Türkçe";
+      } else if (lang == "en-US") {
+        langTitle = "English";
+      } else if (lang == "de-DE") {
+        langTitle = "Deutsch";
+      } else if (lang == "de") {
+        langTitle = "Deutsch";
+      } else if (lang == "es-ES") {
+        langTitle = "Español";
+      } else if (lang == "es") {
+        langTitle = "Español";
+      } else if (lang == "fr-FR") {
+        langTitle = "Français";
+      } else if (lang == "fr") {
+        langTitle = "Français";
+      } else if (lang == "it-IT") {
+        langTitle = "Italiano";
+      } else if (lang == "it") {
+        langTitle = "Italiano";
+      } else if (lang == "ru-RU") {
+        langTitle = "Русский";
+      } else if (lang == "ru") {
+        langTitle = "Русский";
+      } else if (lang == "zh-hk") {
+        langTitle = "中文(繁體)";
+      } else if (lang == "zh-cn") {
+        langTitle = "中文(简体)";
+      } else if (lang == "ja-JP") {
+        langTitle = "日本語";
+      } else if (lang == "ja") {
+        langTitle = "日本語";
+      } else if (lang == "jp") {
+        langTitle = "日本語";
+      } else if (lang == "az") {
+        langTitle = "Azərbaycanca";
+      } else if (lang == "az-AZ") {
+        langTitle = "Azərbaycanca";
+      } else {
+        langTitle = "English US";
+      }
+
+      document.getElementsByClassName("ot-selected-lang")[0].innerHTML = langTitle;
+      document.getElementsByClassName("ot-selected-lang")[1].innerHTML = langTitle;
+    }
+
+    if (lang == "tr-TR") {
+      language = "default.json";
+    } else if (lang == "en-US") {
+      language = "en.json";
+    } else if (lang == "de-DE") {
+      language = "de.json";
+    } else if (lang == "de") {
+      language = "de.json";
+    } else if (lang == "es-ES") {
+      language = "es.json";
+    } else if (lang == "es") {
+      language = "es.json";
+    } else if (lang == "fr-FR") {
+      language = "fr.json";
+    } else if (lang == "fr") {
+      language = "fr.json";
+    } else if (lang == "it-IT") {
+      language = "it.json";
+    } else if (lang == "it") {
+      language = "it.json";
+    } else if (lang == "ru-RU") {
+      language = "ru.json";
+    } else if (lang == "ru") {
+      language = "ru.json";
+    } else if (lang == "zh-hk") {
+      language = "zh-hk.json";
+    } else if (lang == "zh-cn") {
+      language = "zh-hk.json";
+    } else if (lang == "ja-JP") {
+      language = "ja.json";
+    } else if (lang == "ja") {
+      language = "ja.json";
+    } else if (lang == "jp") {
+      language = "ja.json";
+    } else if (lang == "az") {
+      language = "az.json";
+    } else if (lang == "az-AZ") {
+      language = "az.json";
+    } else {
+      language = "en.json";
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "language/" + language, true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        if (language != "default.json") {
+          var data = JSON.parse(xhr.responseText);
+          var elements = document.querySelectorAll("[data-language]");
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].innerHTML = data[elements[i].getAttribute("data-language")];
+          }
+
+          document.querySelector("html").setAttribute("lang", lang);
+          var hash = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+          localStorage.setItem("language", hash);
+          localStorage.setItem("language_browser", lang);
+          localStorage.setItem("language_file", JSON.stringify(data));
+        } else {
+          data = {
+            "connecting_database": "Veritabanına Bağlanılıyor...",
+            "intel_loading": "İstihbarat Yükleniyor...",
+          }
+        }
+
+        setTimeout(() => {
+          document.getElementById("spinner-text").innerHTML = data.connecting_database;
+        }, 200);
+
+        setTimeout(() => {
+          document.getElementById("spinner-text").innerHTML = data.intel_loading;
+        }, 1000);
+
+
+        setTimeout(function() {
+          document.querySelector("body").classList.add("page-loaded");
+          document.querySelector(".preloader").classList.add("load-done");
+          document.querySelector(".spinner-alt").classList.add("load-done");
+          document.getElementById("preloader").classList.remove("no-default");
+          setTimeout(function() {
+            document.getElementById("preloader").remove();
+          }, 500);
+        }, 1800);
+
+      }
+    }
+
+    xhr.send();
+  </script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/loading.css" />
+  <link rel="stylesheet" href="css/inter.css" />
+  <link rel="stylesheet" href="css/include.css" />
+
+  <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+
+  <!-- All Usefull Meta Tags -->
+  <meta name="description" content="OsIntel, Türkiye'nin 1 Numaralı Yapay Zeka Güçlendirmeli Açık Kaynak İstihbarat Sistemi (AI-Powered Open Source Intelligence System) İle Tanışın!" />
+  <meta name="keywords" content="OsIntel, Açık Kaynak İstihbarat Sistemi, Yapay Zeka, Veri Tabanı, Bulut Teknolojisi, İstihbarat, AI, Open Source Intelligence System" />
+  <meta name="author" content="OsIntel" />
+  <meta name="robots" content="index, follow" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="language" content="Turkish" />
+  <meta name="generator" content="OsIntel" />
+  <meta name="rating" content="general" />
+  <meta name="distribution" content="global" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#007d88" />
+  <meta name="msapplication-TileColor" content="#007d88" />
+  <meta name="msapplication-TileImage" content="mstile-144x144.png" />
+  <meta name="msapplication-config" content="browserconfig.xml" />
+  <meta name="application-name" content="OsIntel" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#007d88" />
+  <meta name="apple-mobile-web-app-title" content="OsIntel" />
+  <meta name="format-detection" content="telephone=no" />
+</head>
+
+<body>
+  <div id="preloader" class="preloader no-default">
+    <span class="spinner spinner-alt">
+      <img src="images/logo.png" alt="Logo" class="spinner-brand" />
+      <span id="spinner-text" data-language="loading"></span>
+    </span>
+  </div>
+  <div class="iw_component">
+    <nav class="sitenav sticky-top js-sitenav" aria-label="site">
+      <div class="container">
+        <div class="navbar navbar-expand-lg navbar-light">
+          <a class="navbar-brand" href="/" style="font-family: Arial, Helvetica, sans-serif"><img width="112" height="32" src="images/menu_logo.png" /></a>
+          <div class="sitenav-login-dropdown sitenav-ui-mobile dropdown">
+            <button class="btn btn-theme btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <svg class="btn-icon btn-icon-first" width="12" height="12" viewBox="0 0 12 12" fill="none" role="img" aria-hidden="true" focusable="false">
+                <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0ZM0.957835 4.72349C0.854757 5.13191 0.8 5.55956 0.8 6C0.8 8.45887 2.50664 10.5191 4.8 11.0609V10.5657L4 9.76569V8.56569L3.2 7.76569V6.8C3.2 6.57909 3.37909 6.4 3.6 6.4H6.8C7.46274 6.4 8 6.93726 8 7.6V8.00945C8.40876 8.06792 8.73208 8.39124 8.79055 8.8H10.3825C10.9 7.99176 11.2 7.03091 11.2 6C11.2 3.83685 9.87917 1.9822 8.00003 1.19854V2C8.00003 2.66274 7.46277 3.2 6.80003 3.2H6.00003C5.77912 3.2 5.60003 3.37909 5.60003 3.6C5.60003 4.26274 5.06277 4.8 4.40003 4.8H4.00003V5.36569L3.64856 5.71716C3.17993 6.18579 2.42013 6.18579 1.9515 5.71716L0.957835 4.72349Z"></path>
+              </svg>
+              <span class="sr-only">Choose your country. Current selection is the</span>
+              <span class="ot-selected-lang">English US</span><span class="sr-only">website.</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li> <a class="dropdown-item" href="javascript:setLang('tr-TR');">Türkçe <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/tr.svg"></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('en-EN');">English <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/us.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('de-DE');">Deutsch <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/de.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('ru-RU');">Русский <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/ru.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('fr-FR');">Français <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/fr.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('es-ES');">Español <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/es.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('it-IT');">Italiano <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/it.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('az-AZ');">Azərbaycanca <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/az.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('zh-hk');">中文(繁體) <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/cn.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('ja-JP');">日本語 <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/jp.svg"></a></a></li>
+            </ul>
+          </div>
+          <div class="sitenav-login-dropdown sitenav-ui-mobile">
+            <button id="sitenav-toggler" class="sitenav-login2-btn btn btn-sm collapsed" type="button" data-toggle="collapse" data-target="#sitenav-collapse" aria-controls="sitenav-collapse-2" aria-expanded="false" aria-label="Toggle login navigation">
+              <svg class="btn-icon btn-icon-first" width="18" height="20" viewBox="0 0 18 20" fill="none" fill-rule="evenodd" clip-rule="evenodd" aria-hidden="true">
+                <path d="M12.6 5.19775C12.6 7.18485 10.9884 8.7954 9 8.7954C7.0116 8.7954 5.4 7.18485 5.4 5.19775C5.4 3.21065 7.0116 1.6001 9 1.6001C10.9884 1.6001 12.6 3.21065 12.6 5.19775Z" fill="currentColor"></path>
+                <path d="M15.75 18.3892H2.25C2.25 17.5371 2.25 15.9765 2.25 15.2425C2.25 13.2542 3.86178 11.6431 5.85 11.6431H12.15C14.1382 11.6431 15.75 13.2542 15.75 15.2425C15.75 15.9765 15.75 17.5371 15.75 18.3892Z" fill="currentColor"></path>
+                <path d="M12.6 5.19775C12.6 7.18485 10.9884 8.7954 9 8.7954C7.0116 8.7954 5.4 7.18485 5.4 5.19775C5.4 3.21065 7.0116 1.6001 9 1.6001C10.9884 1.6001 12.6 3.21065 12.6 5.19775Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"></path>
+                <path d="M15.75 18.3892H2.25C2.25 17.5371 2.25 15.9765 2.25 15.2425C2.25 13.2542 3.86178 11.6431 5.85 11.6431H12.15C14.1382 11.6431 15.75 13.2542 15.75 15.2425C15.75 15.9765 15.75 17.5371 15.75 18.3892Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"></path>
+              </svg><span class="sitenav-login-text text-truncate" title="My Account" data-language="my_account">Hesabım</span>
+            </button>
+          </div>
+          <div class="navbar-collapse collapse navbar-nav-scroll" id="sitenav-collapse">
+            <ul class="navbar-nav">
+              <li class="sitenav-dropdown-mega nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#" target="" id="sitenav-solutions" data-language="solutions">Çözümler</a>
+              </li>
+              <li class="sitenav-dropdown-mega nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="sitenav-products" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#" target="" data-language="products">Ürünler</a>
+              </li>
+              <li class="sitenav-dropdown-mega nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#" target="" id="sitenav-support-and-services" data-language="support_services">Destek &amp; Servisleri</a>
+              </li>
+              <li class="sitenav-dropdown-mega nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#" target="" id="sitenav-partners" data-language="partners">Partnerlerimiz</a>
+              </li>
+              <li class="sitenav-dropdown-mega nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#" target="" id="sitenav-resources" data-language="sources">Kaynaklar</a>
+              </li>
+            </ul>
+            <a class="sitenav-navbar-contact btn btn-theme btn-sm" data-language="contact" href="/contact">İletişim</a>
+          </div>
+          <div id="sitenav-collapse-2" class="sitenav-login-navbar navbar-collapse collapse navbar-nav-scroll">
+            <ul class="navbar-nav">
+              <li class="sitenav-login-dropdown sitenav-dropdown nav-item dropdown">
+                <button id="sitenav-login-button" class="sitenav-login2-btn nav-link dropdown-toggle btn btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <svg class="btn-icon btn-icon-first" width="18" height="20" viewBox="0 0 18 20" fill="none" fill-rule="evenodd" clip-rule="evenodd" stroke="currentColor" stroke-linecap="square" stroke-width="1.5" aria-hidden="true">
+                    <path d="M12.6 5.19775C12.6 7.18485 10.9884 8.7954 9 8.7954C7.0116 8.7954 5.4 7.18485 5.4 5.19775C5.4 3.21065 7.0116 1.6001 9 1.6001C10.9884 1.6001 12.6 3.21065 12.6 5.19775Z">
+                    </path>
+                    <path d="M15.75 18.3892H2.25C2.25 17.5371 2.25 15.9765 2.25 15.2425C2.25 13.2542 3.86178 11.6431 5.85 11.6431H12.15C14.1382 11.6431 15.75 13.2542 15.75 15.2425C15.75 15.9765 15.75 17.5371 15.75 18.3892Z">
+                    </path>
+                  </svg><span class="sitenav-login-text text-truncate" title="My Account " data-language="my_account">Hesabım</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <a class="sitenav-contact sitenav-ui-desktop btn btn-theme btn-sm me-2" href="#" data-language="contact">İletişim</a>
+          <div class="sitenav-ui-desktop dropdown">
+            <button class="btn btn-theme btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <svg class="btn-icon btn-icon-first" width="12" height="12" viewBox="0 0 12 12" fill="none" role="img" aria-hidden="true" focusable="false">
+                <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0ZM0.957835 4.72349C0.854757 5.13191 0.8 5.55956 0.8 6C0.8 8.45887 2.50664 10.5191 4.8 11.0609V10.5657L4 9.76569V8.56569L3.2 7.76569V6.8C3.2 6.57909 3.37909 6.4 3.6 6.4H6.8C7.46274 6.4 8 6.93726 8 7.6V8.00945C8.40876 8.06792 8.73208 8.39124 8.79055 8.8H10.3825C10.9 7.99176 11.2 7.03091 11.2 6C11.2 3.83685 9.87917 1.9822 8.00003 1.19854V2C8.00003 2.66274 7.46277 3.2 6.80003 3.2H6.00003C5.77912 3.2 5.60003 3.37909 5.60003 3.6C5.60003 4.26274 5.06277 4.8 4.40003 4.8H4.00003V5.36569L3.64856 5.71716C3.17993 6.18579 2.42013 6.18579 1.9515 5.71716L0.957835 4.72349Z"></path>
+              </svg>
+              <span class="sr-only">Choose your country. Current selection is the</span>
+              <span class="ot-selected-lang">English US</span><span class="sr-only">website.</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li> <a class="dropdown-item" href="javascript:setLang('tr-TR');">Türkçe <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/tr.svg"></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('en-EN');">English <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/us.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('de-DE');">Deutsch <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/de.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('ru-RU');">Русский <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/ru.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('fr-FR');">Français <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/fr.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('es-ES');">Español <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/es.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('it-IT');">Italiano <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/it.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('az-AZ');">Azərbaycanca <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/az.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('zh-hk');">中文(繁體) <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/cn.svg"></a></a></li>
+              <li> <a class="dropdown-item" href="javascript:setLang('ja-JP');">日本語 <img width="18" height="14" src="https://flagicons.lipis.dev/flags/4x3/jp.svg"></a></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+        <div class="elementim">
+          <h2 data-language="welcome_header" class="h1 fade-in-md-up animation-delay-2 text-white">
+            Açık Kaynak İstihbarat Sistemi
+          </h2>
+          <p data-language="welcome_text" class="section-header-subtitle fade-in-md-up animation-delay-3 mb-4 mb-md-6 text-white">
+            Türkiye'nin 1 Numaralı Yapay Zeka Güçlendirmeli Açık Kaynak İstihbarat Sistemi (AI-Powered Open Source
+            Intelligence System) İle Tanışın!
+          </p>
+          <a data-language="register_now" class="btn btn-theme fade-in-md-up animation-delay-4" href="#">Şimdi Kayıt Ol</a>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6 col-xl-6 rounded">
+        <div class="embed-responsive embed-responsive-1by1">
+          <div id="globe-gl" class="embed-responsive-item js-globe-gl"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-none d-lg-block container mb-5 mt-md-3">
+    <div class="row pb-4">
+      <div class="col">
+        <div class="row row-cols-2 row-gap">
+          <div class="col"><a class="card embed-responsive embed-responsive-1by1 shadow shadow-hover" href="#"> <span class="card-body embed-responsive-item d-flex align-items-center"> <img class="img-fluid" src="images/python.svg" alt="Hyatt logo" width="416" height="274"> </span> </a></div>
+          <div class="col"><a class="card embed-responsive embed-responsive-1by1 shadow shadow-hover" href="#"> <span class="card-body embed-responsive-item d-flex align-items-center"> <img class="img-fluid" src="images/nodejs.svg" alt="Solarity logo" width="416" height="274"> </span> </a></div>
+          <div class="col"><a class="card embed-responsive embed-responsive-1by1 shadow shadow-hover" href="#"> <span class="card-body embed-responsive-item d-flex align-items-center"> <img class="img-fluid" src="images/mongodb.svg" alt="Royal Bank of Canada logo" width="416" height="274"> </span> </a></div>
+          <div class="col"><a class="card embed-responsive embed-responsive-1by1 shadow shadow-hover" href="#"> <span class="card-body embed-responsive-item d-flex align-items-center"> <img class="img-fluid" src="images/mysql.svg" alt="MAD Security logo" width="416" height="274"> </span> </a></div>
+        </div>
+      </div>
+      <div class="col"><a class="card embed-responsive embed-responsive-1by1 text-reset shadow shadow-hover" href="#"> <span class="card-body embed-responsive-item d-flex flex-column justify-content-center text-center"> <span class="h-50 mb-4"> <img class="img-fluid mh-100 w-auto" src="images/logo.png" alt="Coca-Cola Refrescos Bandeirantes logo" width="416" height="274"> </span>
+            <p data-language="middle_text">OsIntel Çeşitli Araçlar
+              Kullanılarak Özenle Geliştirdiğimiz Araçtır.</p>
+          </span> </a></div>
+      <div class="col">
+        <div class="row row-cols-2 row-gap">
+          <div class="col"><a class="card embed-responsive embed-responsive-1by1 shadow shadow-hover" href="#"> <span class="card-body embed-responsive-item d-flex align-items-center"> <img class="img-fluid" src="images/nvidia.svg" alt="Lids logo" width="416" height="274"> </span> </a></div>
+          <div class="col"><a class="card embed-responsive embed-responsive-1by1 shadow shadow-hover" href="#"> <span class="card-body embed-responsive-item d-flex align-items-center"> <img class="img-fluid" src="images/azure.svg" alt="Heineken Slovensko logo" width="416" height="274"> </span> </a></div>
+          <div class="col"><a class="card embed-responsive embed-responsive-1by1 shadow shadow-hover" href="#"> <span class="card-body embed-responsive-item d-flex align-items-center"> <img class="img-fluid" src="images/dotnet.svg" alt="L’Oréal logo" width="416" height="274"> </span> </a></div>
+          <div class="col"><a class="card embed-responsive embed-responsive-1by1 shadow shadow-hover" href="#"> <span class="card-body embed-responsive-item d-flex align-items-center"> <img class="img-fluid" src="images/json.svg" alt="Philips Healthcare logo" width="416" height="274"> </span> </a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mb-5 mt-3">
+    <div class="row">
+      <div class="col-12 col-lg-6">
+        <div class="ms-3">
+          <img src="images/cloud.png" width="100" height="100">
+          <div class="section-header-body">
+            <h2 data-language="cloud_tech" class="section-header-title text-white">
+              Bulut Teknolojisi
+            </h2>
+          </div>
+          <p data-language="cloud_tech_text" class="mt-2">
+            Bulut depolamamızda açık kaynaklardan elde ettiğimiz milyarlarca
+            veri bulunmaktadır, telefonunuzdan veya bilgisayarınızdan bu
+            buluttaki verileri dilediğiniz gibi görebilirsiniz. Ayrıca buluta belirlenen miktarda veri
+            yükleyebilirsiniz.
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="ms-3">
+          <img src="images/search.png" width="110" height="100">
+          <div class="section-header-body">
+            <h2 data-language="intel" class="section-header-title text-white">
+              İstihbarat
+            </h2>
+          </div>
+          <p data-language="intel_text" class="mt-2">
+            OsIntel istihbarat modu ile tüm açık kaynak sistemlerden
+            toplanmış veriler arasında sörf yapıp dilediğiniz gibi araştırmalarınızı yürütebilirsiniz.
+            Araştırdığınız bilgi veya bilgileri yapay zekaya tahmin ettirebilirsiniz.
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-12">
+        <div class="ms-3">
+          <img src="images/yapay-zekai.png" width="100" height="100">
+          <div class="section-header-body">
+            <h2 data-language="ai" class="section-header-title text-white">
+              Yapay Zeka
+            </h2>
+          </div>
+          <p data-language="ai_text" class="mt-2">
+            Geliştirdiğimiz teknoloji olan tahmin yapay zekası sayesinde, aranan bilgi veritabanımızda olmasa bile
+            aradığınız veriye benzerlik gösteren diğer verilerle kendi kendini eğitip aradığınız veriye benzerlik
+            gösteren veriler oluşturur.
+            Aranan bilgi veritabanımızda bulunmasa dahi veriyi tahmin ederek gösterir.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="container mt-5 mb-5">
+    <div class="row ms-1">
+      <div class="col-12 col-md-4 col-lg-3">
+        <header class="section-header section-header-sm section-header-side">
+          <h2 data-language="how_can_help" class="section-header-title text-white">Nasıl Yardımcı Olabiliriz?</h2>
+        </header>
+      </div>
+      <div class="col-12 col-md-8 col-lg-9">
+        <ul class="card-layout card-layout-trim row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+          <li class="col">
+            <div class="card shadow-sm">
+              <div class="card-body media align-items-center"><img class="media-img" src="images/about.svg" alt="" width="48" height="48"><span class="media-body h5"><a data-language="about_us" class="stretched-link text-white" href="/about">Hakkımızda</a></span></div>
+            </div>
+          </li>
+          <li class="col">
+            <div class="card card-body shadow-sm">
+              <div class="media align-items-center"><img class="media-img" src="images/discord.svg" alt="" width="48" height="48"><span class="media-body h5"><a class="stretched-link text-white" href="#" data-language="discord">Discord
+                  </a></span></div>
+            </div>
+          </li>
+          <li class="col">
+            <div class="card shadow-sm">
+              <div class="card-body media align-items-center"><img class="media-img" src="images/telegram.svg" alt="" width="48" height="48"><span class="media-body h5"><a class="stretched-link text-white" href="/contact" data-language="telegram">Telegram</a></span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-3 mb-3">
+    <div class="ot-footer__copyright-powered">
+      <p class="ot-footer__copyright"><a href="#">Copyright</a> © 2024 OsIntel Corporation.
+        All Rights Reserved.</p>
+      <p class="ot-footer__powered-by">Powered by <a href="#">OsIntel TeamSite</a>
+      </p>
+    </div>
+  </div>
+
+</body>
+<script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script defer src="https://d3js.org/d3.v7.min.js"></script>
+<script defer src="https://unpkg.com/globe.gl@2.26.5/dist/globe.gl.min.js"></script>
+<script defer src="js/globe.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script>
+  getLangTitle();
+</script>
+
+</html>
